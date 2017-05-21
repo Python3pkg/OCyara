@@ -188,7 +188,7 @@ class OCyara:
         if rules_matched is None:
             rules_matched = self.list_matched_rules()
         # Step through each matched file and see if they matched any of the rules we're interested in.
-        for filepath, matchedrules_with_contexts in self.matchedfiles[0].items():
+        for filepath, matchedrules_with_contexts in list(self.matchedfiles[0].items()):
             for matchedrulename, context in matchedrules_with_contexts:
                 for rulename in rules_matched:
                     if matchedrulename == rulename:
@@ -201,7 +201,7 @@ class OCyara:
     def list_matched_rules(self) -> set:
         """Process the matchedfiles dictionary and return a list of rules that were matched."""
         rules = set()
-        for filepath, matchedrules in self.matchedfiles[0].items():
+        for filepath, matchedrules in list(self.matchedfiles[0].items()):
             [rules.add(matchedrule[0]) for matchedrule in matchedrules]
         return rules
 
@@ -315,7 +315,7 @@ class OCyara:
 
     def __call__(self):
         """Default call which outputs the results with the same output standard as the regular yara program """
-        print(ocy.yara_output)
+        print((ocy.yara_output))
 
     @property
     def yara_output(self) -> str:
@@ -329,7 +329,7 @@ class OCyara:
           FileName is the name of the file in which the match was found
         """
         output_text = ''
-        for rule, matched_files_and_contexts in self.list_matches().items():
+        for rule, matched_files_and_contexts in list(self.list_matches().items()):
             for matched_file_and_context in matched_files_and_contexts:
                 output_text += rule + ' ' + matched_file_and_context[0] + '\n'
         return output_text
